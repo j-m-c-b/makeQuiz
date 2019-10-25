@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quiz</title>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+        }
+        #complete{
+            color: #75d18b;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <h1>Quiz</h1>
+
+    <h2 id="domTitle">Questions:</h2>
+
+<h3 id="domQuestion"></h3>
+
+<div id="options"><span id="domA"></span><span id="domB"></span><span id="domC"></span><span id="domD"></span></div>
+
+<br>
+<br>
+
+
+<div id="domBotones"><button>A</button><button>B</button><button>C</button><button>D</button></div>
+
+
+<h3>Results</h3>
+
+<div id="domResults"></div>
+    <script >
+        var domTitle = document.getElementById("domTitle")
+
+        var domQuestion = document.getElementById("domQuestion");
+
+
+        var opcParent =document.getElementById("options");
+
+        var optionsContainer = document.getElementById("options");
+    
+        var options =  document.getElementById("options").childNodes;
+        
+        var domBotones =  document.getElementById("domBotones").childNodes;
+        
+        var domBotonesContainer =  document.getElementById("domBotones");
+
+
+        var domResults = document.getElementById("domResults");
+
+        var url = new URL(window.location);
+        var quiz = JSON.parse(decodeURI(url.searchParams.get("quiz")));
+      
+        for(let ele of domBotones){
+        
+            if( ele.addEventListener){
+                ele.addEventListener("click", function(){
+                sendAnswer(ele.innerText);
+            });
+            }
+       
+        }
+
+
+
+    
+        var index = ["A", "B", "C", "D"];
+        var questions = quiz.questions;
+
+        let answersScore = {
+            correct : 0,
+            wrong: 0
+        }
+
+
+
+      
+
+        function sendAnswer(userAnswer){
+            if(current <= questions.length-1){
+                    if(userAnswer === questions[current].correctAnswer){
+                        answersScore.correct += 1;
+                    }else{
+                        answersScore.wrong += 1;
+                    }
+                    current += 1;
+                    nextQuestion();
+
+            }
+
+
+        }
+
+        var current = 0;
+        function nextQuestion(){
+
+           if(current <= questions.length-1){
+                domQuestion.innerText = questions[current].question;
+
+                for(let i in options){
+                    options[i].innerHTML = index[i] + ": " + questions[current][index[i]] + "<br>";
+                    
+                }
+           } else{
+               //completed
+
+               domTitle.innerHTML= '<b id="complete">Complete</b>';
+               domQuestion.innerText = "";
+               optionsContainer.innerHTML = "";
+               domBotonesContainer.innerHTML = "";
+
+               domResults.innerHTML = "Number of Correct Answers: " + answersScore.correct + ' <span style="color: green"> ✓ </span><br>' +
+                                       "Number of Wrong Answers: " + answersScore.wrong  + ' <span style="color: red"> ✘ </span> '               
+           }
+        
+         
+            
+            
+
+        }
+
+        nextQuestion();
+
+    
+    </script>
+    
+</body>
+</html>

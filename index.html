@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create Quiz</title>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+        }
+        input, textarea{
+            width: 95%;
+            color: white;
+            background-color: rgb(71, 94, 129);
+        }   
+        h1{
+            text-align: center;
+        }
+        a, a:visited {
+             color: rgb(102, 205, 170);
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1>Create Quiz</h1>
+
+
+    <textarea id="domQuiz" name="" id="" cols="30" rows="30">
+{
+    "questions" : [
+
+    
+         {
+            "question": "?",
+            "A": "",
+            "B": "",
+            "C": "",
+            "D": "", 
+            "correctAnswer": "A"
+        },
+        {
+            "question": "?",
+            "A": "",
+            "B": "",
+            "C": "",
+            "D": "", 
+            "correctAnswer": "A"
+        }
+    ]
+  
+
+
+}
+        </textarea>
+
+
+<button id="domButton">Create Quiz</button>
+<br>
+<br>
+
+<a id="domLink" href=""></a>
+
+    <script>
+        var domQuiz = document.getElementById("domQuiz");
+        var questions = encodeURI(domQuiz.value.toString().trim())
+        
+        var domButton = document.getElementById("domButton");
+        var domLink = document.getElementById("domLink");
+
+        domButton.addEventListener("click",function(){
+            if( JSON.parse( domQuiz.value.toString() ) ){
+                domLink.href = "showQuiz.html?quiz="+ encodeURI(domQuiz.value.toString().trim());
+                domLink.innerText = "Quiz Link (Click Me)"
+            }else{
+                alert("Formatting Error");
+            }
+           
+        });
+
+
+        
+    </script>
+
+
+
+
+</body>
+</html>
